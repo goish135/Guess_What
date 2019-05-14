@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="三軸加速度 - 資料擷取"
+        android:textSize="25sp"
+        android:layout_margin="15sp"
+        android:layout_marginBottom="10sp"
+        />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="X"
+        android:id="@+id/TextView01"
+        android:textSize="25sp"
+        android:layout_margin="15sp"
+        />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Y"
+        android:id="@+id/TextView02"
+        android:textSize="25sp"
+        android:layout_margin="15sp"
+        />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Z"
+        android:id="@+id/TextView03"
+        android:textSize="25sp"
+        android:layout_margin="15sp"
+        />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="119dp"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+</LinearLayout>
