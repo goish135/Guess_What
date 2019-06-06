@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fadingEdge="vertical"
+    android:scrollbars="vertical">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
@@ -6,14 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="三軸加速度 - 資料擷取"
-        android:textSize="25sp"
-        android:layout_margin="15sp"
-        android:layout_marginBottom="10sp"
-        />
+
 
     <LinearLayout
         android:layout_width="378dp"
@@ -25,21 +23,10 @@
             android:id="@+id/TextView01"
             android:layout_width="226dp"
             android:layout_height="wrap_content"
-            android:text="X"
+            android:text=""
             android:textSize="25sp" />
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="65dp"
-            android:layout_height="fill_parent"
-            android:fadingEdge="vertical"
-            android:scrollbars="vertical">
 
-            <TextView
-                android:id="@+id/record"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="計分榜" />
-        </ScrollView>
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
@@ -47,55 +34,29 @@
         android:layout_margin="15sp"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/TextView02"
-            android:layout_width="122dp"
-            android:layout_height="match_parent"
 
-            android:text="Y"
-            android:textSize="25sp" />
 
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="190dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
             android:layout_height="match_parent" />
-    </LinearLayout>
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Z"
-        android:id="@+id/TextView03"
-        android:textSize="25sp"
-        android:layout_margin="15sp"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
 
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/question"
+        <Button
+            android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15sp"
-            android:text="題目:"
-            android:textSize="25sp" />
+            android:text="開始遊戲" />
 
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="74dp"
+        <Button
+            android:id="@+id/editQ"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15sp"
-            android:text="總數:"
-            android:textSize="25sp" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="119dp"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+            android:text="新增題目" />
     </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="61dp"
@@ -199,8 +160,8 @@
         android:orientation="vertical">
 
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:fadingEdge="vertical"
             android:scrollbars="vertical">
 
@@ -212,3 +173,4 @@
         </ScrollView>
     </LinearLayout>
 </LinearLayout>
+</ScrollView>

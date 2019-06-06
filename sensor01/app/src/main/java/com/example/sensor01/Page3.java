@@ -1,29 +1,32 @@
 package com.example.sensor01;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import java.util.Random;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,19 +36,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.view.View.OnClickListener;
 
-public class MainActivity extends Activity implements OnClickListener,OnItemSelectedListener {
-    //private Button bt_create;
+public class Page3 extends AppCompatActivity  implements OnClickListener,OnItemSelectedListener{
+
     Button startButton;
     private Button bt_read;
     private TextView tvv;
@@ -66,29 +62,21 @@ public class MainActivity extends Activity implements OnClickListener,OnItemSele
     Button button1;
     ArrayList<String> arraySpinner = new ArrayList<String>();  //指定是String的型態
     private File file;
-    //ArrayList<String> arraySpinner= new ArrayList<String>();
-
-    /*
-    String[] arraySpinner = new String[] {
-            "1", "2", "3", "4", "5", "6", "7"
-    }; */
     EditText edt;
     EditText op1;
     EditText  addq;
     EditText pwd;
-    /** Called when the activity is first created. */
-
-
-
-
+    /** Called when the activity is first created. **/
     ArrayAdapter<String> arrayadapter;
-    @Override
-
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_page3);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         startButton = findViewById(R.id.button1);
-        startButton.setOnClickListener(this);
+        //startButton.setOnClickListener(this);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         edt=(EditText) this.findViewById(R.id.editText1);
@@ -190,15 +178,7 @@ public class MainActivity extends Activity implements OnClickListener,OnItemSele
             e.printStackTrace();
         }
 
-        Button nextPageBtn = (Button)findViewById(R.id.editQ);
-        nextPageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this  , Page3.class);
-                startActivity(intent);
-            }
-        });
+
 
         Button button = findViewById(R.id.button2);
         button.setOnClickListener(new Button.OnClickListener() {
@@ -377,7 +357,7 @@ public class MainActivity extends Activity implements OnClickListener,OnItemSele
                             if(repeat==false) array.put(test);
                             else
                             {
-                                Toast.makeText(MainActivity.this, "題目重複", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Page3.this, "題目重複", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -450,17 +430,17 @@ public class MainActivity extends Activity implements OnClickListener,OnItemSele
         // Another interface callback
     }
     protected void onResume() {
-        if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
         super.onResume();
     }
-        @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n")
 
     private void openPopupWindow(View v){
         LayoutInflater layoutInflater = (LayoutInflater)
                 getBaseContext()
-                .getSystemService(LAYOUT_INFLATER_SERVICE);
+                        .getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = layoutInflater.inflate(R.layout.popup, null);
 
         final PopupWindow popupWindow = new PopupWindow(popupView,
@@ -562,13 +542,12 @@ public class MainActivity extends Activity implements OnClickListener,OnItemSele
 
     @Override
     public void onClick(View v) {
-            String response = t1.getText().toString();
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this  , Page2.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("type",response);
-            intent.putExtras(bundle);
-            startActivity(intent);
+        String response = t1.getText().toString();
+
     }
 
 }
+
+
+
+
