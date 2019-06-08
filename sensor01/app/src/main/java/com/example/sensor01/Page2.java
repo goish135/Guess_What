@@ -51,13 +51,18 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
     private TextView board;
     int count = 1; // 題號
     boolean flag1=false;
+    boolean beep = true;
+    boolean pass = true;
     String response;
     ArrayList<String> qset = new ArrayList<String>();
     ArrayList<String> record = new ArrayList<String>();
+    /*
     private SoundPool mSoundPool;
     private int streamID;
     private HashMap<String, Integer> mSoundMap;
-
+    */
+    private SoundPool soundPool;
+    private SoundPool soundPool2;
     @Override
     public void onSensorChanged(SensorEvent event) {
         // total.setText(Integer.toString(qset.size()));
@@ -109,18 +114,58 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
 
             //Log.d("check", "correct");
             flag1 = true;
+
+            if(beep)
+            {
+
+                try{
+
+                soundPool.play(1,1, 1, 0, 0, 1);
+
+                }
+                catch(Exception e)
+                {
+                   Log.d("mes","播放失敗");
+                    //Toast.makeText(getApplicationContext(), "GG", Toast.LENGTH_SHORT).show();
+                    tvZ.setText("gg");
+                }
+                record.add("1");
+                beep = false;
+            }
         }
         else if(z>5)
         {
             tvZ.setText("Pass");
 
             flag1 = true;
+            if(pass)
+            {
+
+                try{
+
+                    soundPool2.play(1,1, 1, 0, 0, 1);
+
+                }
+                catch(Exception e)
+                {
+                    Log.d("mes","播放失敗");
+                    //Toast.makeText(getApplicationContext(), "GG", Toast.LENGTH_SHORT).show();
+                    tvZ.setText("gg");
+                }
+                record.add("0");
+                beep = false;
+            }
+            pass = false;
         }
         else if(z>=-1&&z<=1)
         {
             //flag2 = true;
+            beep = true;
             if(flag1==true)
             {
+                beep = true ;
+                pass = true;
+                /*
                 if(tvZ.getText().toString().equals("Correct"))
                 {
                     record.add("1");
@@ -132,7 +177,7 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
                     record.add("0");
                     //streamID = mSoundMap.get("X.mp3");
                     //mSoundPool.play(streamID, 10, 10, 1, 0, 1.0f);
-                }
+                }*/
                 count++;
                 //tvv.setText(Integer.toString(count));
                 flag1 = false;
@@ -145,24 +190,32 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
             mSensorManager.unregisterListener(this,mAccelerometer);
 
             tvv.setText("");
+            board.setText("");
+
             for(int i=0;i<qset.size();i++)
             {
-
-                if(record.get(i).equals("1"))
+                //board.append(qset.get(i));
+                if(i<record.size())
                 {
-                    //tvv.setTextColor(android.graphics.Color.GREEN);
-                    String text = "<font color='green'>"+qset.get(i)+"</font><br>";
-                    tvv.append(Html.fromHtml(text));
-                    Log.d("check","123");
+                    if(record.get(i).equals("1"))
+                    {
+                        String text = "<font color='green'>"+qset.get(i)+"</font><br>";
+                        board.append(Html.fromHtml(text));
+                    }
+                    else
+                    {
+                        String text = "<font color='red'>"+qset.get(i)+"</font><br>";
+                        board.append(Html.fromHtml(text));
+                    }
 
                 }
                 else
                 {
-                    //tvv.setTextColor(Color.RED);
                     String text = "<font color='red'>"+qset.get(i)+"</font><br>";
-                    tvv.append(Html.fromHtml(text));
-                    Log.d("check","456");
+                    board.append(Html.fromHtml(text));
                 }
+
+
             }
         }
 
@@ -182,6 +235,7 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
         setContentView(R.layout.activity_page2);
+
         //      Toolbar toolbar = findViewById(R.id.toolbar);
         //       setSupportActionBar(toolbar);
         //設定隱藏標題
@@ -195,10 +249,13 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
         gamestart();
         tvv = (TextView) findViewById(R.id.tvv);//获取到TextView组件
         board = (TextView) findViewById(R.id.record);
-
-        mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-        mSoundMap = new HashMap<>();
-
+        soundPool= new SoundPool(10,AudioManager.STREAM_SYSTEM,5);
+        soundPool.load(this,R.raw.correct,1);
+        soundPool2= new SoundPool(10,AudioManager.STREAM_SYSTEM,5);
+        soundPool2.load(this,R.raw.pass,1);
+        //mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        //mSoundMap = new HashMap<>();
+        /*
         try {
             streamID = mSoundPool.load(getApplicationContext().getAssets().openFd("beep/O.mp3"), 1);
             mSoundMap.put("beep1.mp3", streamID);
@@ -207,7 +264,8 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
             // Log.i(TAG, "onCreate: streamID = " + streamID);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+
 
         /*
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -221,14 +279,14 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
         */
     }
 
-
+   /*
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mSoundPool.release();
         mSoundPool = null;
     }
-
+    */
     @Override
     protected void onResume() {
         /**
