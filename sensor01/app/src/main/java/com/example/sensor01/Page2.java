@@ -48,6 +48,7 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
     private Sensor mAccelerometer;
     private long time;
     private TextView tvv;
+    private TextView board;
     int count = 1; // 題號
     boolean flag1=false;
     String response;
@@ -78,6 +79,7 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
 
 
             tvv.setText("");
+            board.setText("");
             for(int i=0;i<qset.size();i++)
             {
 
@@ -85,7 +87,7 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
                 {
                     //tvv.setTextColor(android.graphics.Color.GREEN);
                     String text = "<font color='green'>"+qset.get(i)+"</font><br>";
-                    tvv.append(Html.fromHtml(text));
+                    board.append(Html.fromHtml(text));
                     Log.d("check","123");
 
                 }
@@ -93,7 +95,7 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
                 {
                     //tvv.setTextColor(Color.RED);
                     String text = "<font color='red'>"+qset.get(i)+"</font><br>";
-                    tvv.append(Html.fromHtml(text));
+                    board.append(Html.fromHtml(text));
                     Log.d("check","456");
                 }
             }
@@ -192,6 +194,8 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         gamestart();
         tvv = (TextView) findViewById(R.id.tvv);//获取到TextView组件
+        board = (TextView) findViewById(R.id.record);
+
         mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         mSoundMap = new HashMap<>();
 
