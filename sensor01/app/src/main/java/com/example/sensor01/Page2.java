@@ -3,15 +3,20 @@ package com.example.sensor01;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,8 +37,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Page2 extends AppCompatActivity implements SensorEventListener {
     private File file;
@@ -45,6 +52,10 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
     boolean flag1=false;
     String response;
     ArrayList<String> qset = new ArrayList<String>();
+    ArrayList<String> record = new ArrayList<String>();
+    private SoundPool mSoundPool;
+    private int streamID;
+    private HashMap<String, Integer> mSoundMap;
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -53,25 +64,54 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
         float x = event.values[0];
         float y = event.values[1];
         float z = event.values[2];
+        boolean finish = false;
 
-
-        if(count<=qset.size())
-            tvv.setText(Integer.toString(count)+"題: "+qset.get(count-1));
+        if(count<=qset.size()){
+            tvv.setText("第"+Integer.toString(count)+"題: "+qset.get(count-1));
+            Log.d("debug",Integer.toString(count));}
         else {
-            tvv.setText("試題結束");
+            finish = true;
+            tvv.setText("The End");
             mSensorManager.unregisterListener(this,mAccelerometer);
             count = 1 ;
+
+
+
+            tvv.setText("");
+            for(int i=0;i<qset.size();i++)
+            {
+
+                if(record.get(i).equals("1"))
+                {
+                    //tvv.setTextColor(android.graphics.Color.GREEN);
+                    String text = "<font color='green'>"+qset.get(i)+"</font><br>";
+                    tvv.append(Html.fromHtml(text));
+                    Log.d("check","123");
+
+                }
+                else
+                {
+                    //tvv.setTextColor(Color.RED);
+                    String text = "<font color='red'>"+qset.get(i)+"</font><br>";
+                    tvv.append(Html.fromHtml(text));
+                    Log.d("check","456");
+                }
+            }
+            record.clear();
         }
         if (x*y<-35||x*y>35)
             tvZ.setText("上一題");
         else if(z<-5)
         {
             tvZ.setText("Correct");
+
+            //Log.d("check", "correct");
             flag1 = true;
         }
         else if(z>5)
         {
             tvZ.setText("Pass");
+
             flag1 = true;
         }
         else if(z>=-1&&z<=1)
@@ -79,15 +119,49 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
             //flag2 = true;
             if(flag1==true)
             {
+                if(tvZ.getText().toString().equals("Correct"))
+                {
+                    record.add("1");
+                    //streamID = mSoundMap.get("O.mp3");
+                    //mSoundPool.play(streamID, 10, 10, 1, 0, 1.0f);
+                }
+                else
+                {
+                    record.add("0");
+                    //streamID = mSoundMap.get("X.mp3");
+                    //mSoundPool.play(streamID, 10, 10, 1, 0, 1.0f);
+                }
                 count++;
-                tvv.setText(Integer.toString(count));
+                //tvv.setText(Integer.toString(count));
                 flag1 = false;
             }
         }
 
 
-        if(System.currentTimeMillis()-time>60000) {
+        if(System.currentTimeMillis()-time>60000&&!finish) {
+            tvv.setText("遊戲結束");
             mSensorManager.unregisterListener(this,mAccelerometer);
+
+            tvv.setText("");
+            for(int i=0;i<qset.size();i++)
+            {
+
+                if(record.get(i).equals("1"))
+                {
+                    //tvv.setTextColor(android.graphics.Color.GREEN);
+                    String text = "<font color='green'>"+qset.get(i)+"</font><br>";
+                    tvv.append(Html.fromHtml(text));
+                    Log.d("check","123");
+
+                }
+                else
+                {
+                    //tvv.setTextColor(Color.RED);
+                    String text = "<font color='red'>"+qset.get(i)+"</font><br>";
+                    tvv.append(Html.fromHtml(text));
+                    Log.d("check","456");
+                }
+            }
         }
 
     }
@@ -118,6 +192,18 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         gamestart();
         tvv = (TextView) findViewById(R.id.tvv);//获取到TextView组件
+        mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        mSoundMap = new HashMap<>();
+
+        try {
+            streamID = mSoundPool.load(getApplicationContext().getAssets().openFd("beep/O.mp3"), 1);
+            mSoundMap.put("beep1.mp3", streamID);
+            streamID = mSoundPool.load(getApplicationContext().getAssets().openFd("beep/X.mp3"), 1);
+            mSoundMap.put("beep2.mp3", streamID);
+            // Log.i(TAG, "onCreate: streamID = " + streamID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         /*
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -132,6 +218,12 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSoundPool.release();
+        mSoundPool = null;
+    }
 
     @Override
     protected void onResume() {

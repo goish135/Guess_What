@@ -7,6 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -44,6 +46,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.view.View.OnClickListener;
@@ -70,6 +73,11 @@ public class Page3 extends AppCompatActivity  implements OnClickListener,OnItemS
     Button button1;
     ArrayList<String> arraySpinner = new ArrayList<String>();  //指定是String的型態
     private File file;
+
+    private SoundPool mSoundPool;
+    private int streamID;
+    private HashMap<String, Integer> mSoundMap;
+
     EditText edt;
     EditText op1;
     EditText  addq;
@@ -98,6 +106,19 @@ public class Page3 extends AppCompatActivity  implements OnClickListener,OnItemS
         setContentView(R.layout.activity_page3);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        mSoundMap = new HashMap<>();
+
+        try {
+            streamID = mSoundPool.load(getApplicationContext().getAssets().openFd("beep/beep1.mp3"), 1);
+            mSoundMap.put("beep1.mp3", streamID);
+            streamID = mSoundPool.load(getApplicationContext().getAssets().openFd("beep/beep2.mp3"), 1);
+            mSoundMap.put("beep2.mp3", streamID);
+            Log.i(TAG, "onCreate: streamID = " + streamID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
 
@@ -534,6 +555,13 @@ public class Page3 extends AppCompatActivity  implements OnClickListener,OnItemS
 
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSoundPool.release();
+        mSoundPool = null;
     }
 
     public void addView(String editview) {
