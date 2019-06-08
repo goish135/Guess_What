@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="title_activity_page2">Page2</string>
-    <string name="title_activity_page3">新增題目</string>
+    <string name="title_activity_page3">編輯題目</string>
 </resources>
 
 

@@ -17,7 +17,31 @@
 
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="61dp"
+                android:background="#FFBB66"
+                android:orientation="horizontal">
 
+                <EditText
+                    android:id="@+id/editText1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:ems="8"
+                    android:hint="新增類型" />
+
+                <Button
+
+                    android:id="@+id/button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="新增類型"
+                    />
+
+            </LinearLayout>
 
 
             <LinearLayout
@@ -47,100 +71,60 @@
                     android:layout_marginRight="2dp"
                     android:layout_gravity="right|center_vertical"
                     android:text="新增題目" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="61dp"
-                android:gravity="right"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv"
+                <Button
+                    android:id="@+id/deleteType"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="150dp"
-                    android:text="TextView" />
-
-                <TextView
-                    android:id="@+id/pw"
-                    android:layout_width="72dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="2dp"
-                    android:text="TextView" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="61dp"
-                android:background="#FFBB66"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/editText1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:ems="10"
-                    android:hint="新增類型" />
-                <EditText
-                    android:id="@+id/op1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:ems="10"
-                    android:hint="題目" />
-
+                    android:layout_gravity="right|center_vertical"
+                    android:text="刪除類型" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="61dp"
-                android:gravity="right"
+                android:gravity="left"
                 android:orientation="horizontal">
+
                 <Button
-                    android:layout_marginRight="150dp"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="read"
-                    android:id="@+id/bt_read"/>   
-
-                <Button
-
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="新增類型/題目"
-                    />
-
-
-
+                    android:id="@+id/bt_read"/>
 
 
             </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="61dp"
 
-                android:orientation="vertical">
+
 
                 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:fadingEdge="vertical"
                     android:scrollbars="vertical">
 
-                    <TextView
-                        android:id="@+id/tvv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TextView2" />
+
+                    <LinearLayout
+                        android:id="@+id/My_layout"
+                        android:background="#f77315"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/my_layout"
+                        android:background="#f77315"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                    </LinearLayout>
+                    </LinearLayout>
+
+
                 </ScrollView>
-            </LinearLayout>
+
+
         </LinearLayout>
 
 
