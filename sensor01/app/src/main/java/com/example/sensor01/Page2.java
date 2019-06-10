@@ -66,6 +66,7 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
     private SoundPool soundPool;
     private SoundPool soundPool2;
     private SoundPool soundPool3;
+    private SoundPool back;
     @Override
     public void onSensorChanged(SensorEvent event) {
         // total.setText(Integer.toString(qset.size()));
@@ -84,6 +85,7 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
         else {
             finish = true;
             tvv.setText("The End");
+            tvZ.setText("");
             mSensorManager.unregisterListener(this,mAccelerometer);
             count = 1 ;
 
@@ -121,7 +123,7 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
                     count--;
                     last = false;
                     record.remove(record.size() - 1);
-
+                    back.play(1,1, 1, 0, 0, 1);
                     Log.d("test", "count" + count);
                 }
             }
@@ -212,6 +214,7 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
         }
         if(System.currentTimeMillis()-time>60000&&!finish) {
             tvv.setText("遊戲結束");
+            tvZ.setText("");
             mSensorManager.unregisterListener(this,mAccelerometer);
             try{
 
@@ -290,6 +293,8 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
         soundPool2.load(this,R.raw.pass,1);
         soundPool3= new SoundPool(10,AudioManager.STREAM_SYSTEM,5);
         soundPool3.load(this,R.raw.timeout,1);
+        back= new SoundPool(10,AudioManager.STREAM_SYSTEM,5);
+        back.load(this,R.raw.back,1);
         //mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         //mSoundMap = new HashMap<>();
         /*
