@@ -49,10 +49,12 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
     private long time;
     private TextView tvv;
     private TextView board;
+    private TextView counter;
     int count = 1; // 題號
     boolean flag1=false;
     boolean beep = true;
     boolean pass = true;
+    boolean last = true;
     String response;
     ArrayList<String> qset = new ArrayList<String>();
     ArrayList<String> record = new ArrayList<String>();
@@ -63,13 +65,17 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
     */
     private SoundPool soundPool;
     private SoundPool soundPool2;
+    private SoundPool soundPool3;
     @Override
     public void onSensorChanged(SensorEvent event) {
         // total.setText(Integer.toString(qset.size()));
+
         TextView tvZ= findViewById(R.id.TextView03);
+        TextView counter = findViewById(R.id.countdown);
         float x = event.values[0];
         float y = event.values[1];
         float z = event.values[2];
+        Log.d("z","z:"+z);
         boolean finish = false;
 
         if(count<=qset.size()){
@@ -107,7 +113,19 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
             record.clear();
         }
         if (x*y<-35||x*y>35)
+        {
             tvZ.setText("上一題");
+            if(last)
+            {
+                if(record.size()>=1) {
+                    count--;
+                    last = false;
+                    record.remove(record.size() - 1);
+
+                    Log.d("test", "count" + count);
+                }
+            }
+        }
         else if(z<-5)
         {
             tvZ.setText("Correct");
@@ -157,7 +175,7 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
             }
             pass = false;
         }
-        else if(z>=-1&&z<=1)
+        else if(z>=-1.5&&z<=1.5)
         {
             //flag2 = true;
             beep = true;
@@ -179,16 +197,33 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
                     //mSoundPool.play(streamID, 10, 10, 1, 0, 1.0f);
                 }*/
                 count++;
+                last = true;
                 //tvv.setText(Integer.toString(count));
                 flag1 = false;
             }
         }
 
-
+        if (Integer.toString((int)((60000-(System.currentTimeMillis()-time))/1000)).equals("0"))
+        {
+            counter.setText("Timeout");
+        }
+        else {
+            counter.setText(Integer.toString((int) ((60000 - (System.currentTimeMillis() - time)) / 1000)));
+        }
         if(System.currentTimeMillis()-time>60000&&!finish) {
             tvv.setText("遊戲結束");
             mSensorManager.unregisterListener(this,mAccelerometer);
+            try{
 
+                soundPool3.play(1,1, 1, 0, 0, 1);
+
+            }
+            catch(Exception e)
+            {
+                Log.d("mes","播放失敗");
+                //Toast.makeText(getApplicationContext(), "GG", Toast.LENGTH_SHORT).show();
+                // tvZ.setText("gg");
+            }
             tvv.setText("");
             board.setText("");
 
@@ -253,6 +288,8 @@ public class Page2 extends AppCompatActivity implements SensorEventListener {
         soundPool.load(this,R.raw.correct,1);
         soundPool2= new SoundPool(10,AudioManager.STREAM_SYSTEM,5);
         soundPool2.load(this,R.raw.pass,1);
+        soundPool3= new SoundPool(10,AudioManager.STREAM_SYSTEM,5);
+        soundPool3.load(this,R.raw.timeout,1);
         //mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         //mSoundMap = new HashMap<>();
         /*
